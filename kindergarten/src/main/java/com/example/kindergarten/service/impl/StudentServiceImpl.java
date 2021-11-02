@@ -1,6 +1,6 @@
 package com.example.kindergarten.service.impl;
 
-import com.example.kindergarten.entity.request.FindStudentRequest;
+import com.example.kindergarten.exception.model.NotFoundException;
 import com.example.kindergarten.model.Student;
 import com.example.kindergarten.repository.StudentRepository;
 import com.example.kindergarten.repository.UserRepository;
@@ -8,7 +8,7 @@ import com.example.kindergarten.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -28,6 +28,7 @@ public class StudentServiceImpl implements StudentService {
         if ((userRepository.findByUserName(student.getParent().stream().findAny().get())) != null) {
             studentRepository.save(student);
         } else {
+            throw new NotFoundException(student.getParent().stream().findFirst().get() + " isimli veli bulunamadı.");
         }
 
     }
@@ -38,7 +39,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student findByParent(List<String> parent) {
+    public Student findByParent(String parent) {
         return studentRepository.findByParent(parent);
     }
 

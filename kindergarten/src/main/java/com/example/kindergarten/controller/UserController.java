@@ -3,6 +3,7 @@ package com.example.kindergarten.controller;
 import com.example.kindergarten.entity.request.FindUserRequest;
 import com.example.kindergarten.model.User;
 import com.example.kindergarten.service.UserService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
