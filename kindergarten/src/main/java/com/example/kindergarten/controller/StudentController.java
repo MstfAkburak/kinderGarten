@@ -21,11 +21,7 @@ public class StudentController {
 
     @PostMapping("/save")
     public ResponseEntity<Void> saveStudent(@RequestBody Student student) {
-        try {
-            studentService.saveStudent(student);
-        } catch (Exception e) {
-            throw new NotFoundException(e.getMessage());
-        }
+        studentService.saveStudent(student);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
