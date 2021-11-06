@@ -28,9 +28,11 @@ public class MedicineServiceImpl implements MedicineService {
     public void saveMedicine(Medicine medicine, String firstName, String lastName) {
         Student student = studentRepository.findByFirstNameAndLastName(firstName, lastName);
         if (Objects.nonNull(student)) {
+            medicine.setStudentId(student.getId());
             medicine.setDate(new Date());
             medicine.setHour(String.valueOf(calendar.getTime()));
-            medicine.setStudentName(firstName + lastName);
+            medicine.setFirstName(firstName);
+            medicine.setLastName(lastName);
             medicineRepository.save(medicine);
         } else {
             throw new NotFoundException(firstName + " " + lastName + " isimli öğrenci bulunamadı.");
@@ -48,10 +50,6 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
-    @Override
-    public List<Medicine> findAllByStudentName(String studentName) {
-        return medicineRepository.findAllByStudentName(studentName);
-    }
 
     @Override
     public void updateMedicine(String id, Boolean isUsed, String description) {
@@ -61,7 +59,8 @@ public class MedicineServiceImpl implements MedicineService {
             throw new NotFoundException("No activity found to update with this day = " + medicine.getMedicineName());
         }
 
-        medicine.setStudentName(medicine.getStudentName());
+        medicine.setFirstName(medicine.getFirstName());
+        medicine.setLastName(medicine.getLastName());
         medicine.setDate(new Date());
         medicine.setHour(String.valueOf(calendar.getTime()));
         medicine.setIsUsed(isUsed);

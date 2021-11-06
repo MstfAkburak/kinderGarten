@@ -2,6 +2,7 @@ package com.example.kindergarten.service.impl;
 
 import com.example.kindergarten.exception.model.NotFoundException;
 import com.example.kindergarten.model.Student;
+import com.example.kindergarten.model.User;
 import com.example.kindergarten.repository.StudentRepository;
 import com.example.kindergarten.repository.UserRepository;
 import com.example.kindergarten.service.StudentService;
@@ -25,7 +26,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveStudent(Student student) {
-        if ((userRepository.findByUserName(student.getParent().stream().findAny().get())) != null) {
+        User user = userRepository.findByUserName(student.getParent().stream().findAny().get());
+        if (Objects.nonNull(user)) {
+            student.setUserId(user.getId());
             studentRepository.save(student);
         } else {
             throw new NotFoundException(student.getParent().stream().findFirst().get() + " isimli veli bulunamadı.");

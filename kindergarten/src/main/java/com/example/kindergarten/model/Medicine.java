@@ -15,7 +15,9 @@ import java.util.Date;
 public class Medicine {
 
     public String id;
-    private String studentName;
+    private String studentId;
+    private String firstName;
+    private String lastName;
     private String medicineName;
     @NotBlank(message = "FirstName is mandatory")
     private Date date;

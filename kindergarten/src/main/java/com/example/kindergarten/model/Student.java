@@ -14,6 +14,7 @@ import java.util.List;
 public class Student {
 
     private String id;
+    private String userId;
     @NotBlank(message = "FirstName is mandatory")
     private String firstName;
     @NotBlank(message = "LastName is mandatory")
