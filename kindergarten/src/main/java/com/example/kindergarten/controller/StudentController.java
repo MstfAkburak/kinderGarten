@@ -42,7 +42,7 @@ public class StudentController {
         return  studentService.findByParent(parent);
     }
 
-    @PostMapping("/find/studentNames")
+    @PostMapping("/find/student")
     @ResponseBody
     public Student findByfirstNamelastName(@RequestParam String firstName, String lastName){
         return  studentService.findByFirstNameAndLastName(firstName, lastName);
