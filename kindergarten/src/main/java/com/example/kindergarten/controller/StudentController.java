@@ -1,7 +1,6 @@
 package com.example.kindergarten.controller;
 
 import com.example.kindergarten.entity.request.FindStudentRequest;
-import com.example.kindergarten.exception.model.NotFoundException;
 import com.example.kindergarten.model.Student;
 import com.example.kindergarten.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -41,6 +40,12 @@ public class StudentController {
     @ResponseBody
     public Student findByParent(@RequestParam String parent){
         return  studentService.findByParent(parent);
+    }
+
+    @PostMapping("/find/studentNames")
+    @ResponseBody
+    public Student findByfirstNamelastName(@RequestParam String firstName, String lastName){
+        return  studentService.findByFirstNameAndLastName(firstName, lastName);
     }
 
 }
