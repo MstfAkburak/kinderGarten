@@ -20,6 +20,7 @@ public class UserController {
 
     @PostMapping("/save")
     public void saveUser(@RequestBody User user){
+            user.setUserName(user.getFirstName().toLowerCase()+user.getLastName().toLowerCase());
             userService.saveUser(user);
     }
 

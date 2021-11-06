@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("/medicine")
+@RequestMapping("/medicines")
 public class MedicineController {
 
     private MedicineService medicineService;
@@ -18,10 +18,6 @@ public class MedicineController {
         this.medicineService = medicineService;
     }
 
-    @GetMapping("/list")
-    public List<Medicine> getMedicineList(@RequestParam String name) {
-        return medicineService.findAllByStudentName(name);
-    }
 
     @PostMapping("/save")
     public ResponseEntity<Void> saveMedicine(@RequestBody Medicine medicine,

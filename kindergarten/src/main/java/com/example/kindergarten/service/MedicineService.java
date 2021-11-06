@@ -9,9 +9,7 @@ public interface MedicineService {
     void saveMedicine(Medicine medicine, String firstName, String lastName);
 
     void deleteMedicine(String medicineName, String firstName, String lastName);
-
-    List<Medicine> findAllByStudentName(String studentName);
-
+    
     void updateMedicine(String id, Boolean isUsed, String description);
 
 }
