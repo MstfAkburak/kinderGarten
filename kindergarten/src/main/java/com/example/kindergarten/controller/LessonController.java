@@ -35,13 +35,6 @@ public class LessonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/saveLessons")
-    public ResponseEntity<Void> saveLessons(@RequestBody Lessons lessons) {
-        lessonsService.saveLessons(lessons);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
     @PostMapping("/addLesson")
     public ResponseEntity<Void> addLesson(@RequestParam String lessonsId,
                                           @RequestParam String lessonId) {

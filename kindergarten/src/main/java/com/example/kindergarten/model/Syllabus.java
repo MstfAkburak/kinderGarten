@@ -5,15 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
-@Document("lessons")
+@Document("syllabus")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lessons {
+public class Syllabus {
     private String id;
     private List<Lesson> lesson;
     private String grade;
