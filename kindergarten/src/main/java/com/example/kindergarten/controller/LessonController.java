@@ -2,9 +2,7 @@ package com.example.kindergarten.controller;
 
 
 import com.example.kindergarten.model.Lesson;
-import com.example.kindergarten.model.Lessons;
 import com.example.kindergarten.service.LessonService;
-import com.example.kindergarten.service.LessonsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +15,9 @@ public class LessonController {
 
 
     private LessonService lessonService;
-    private LessonsService lessonsService;
 
-    public LessonController(LessonService lessonService, LessonsService lessonsService) {
+    public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
-        this.lessonsService = lessonsService;
     }
 
     @GetMapping("/list")
@@ -35,11 +31,5 @@ public class LessonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/addLesson")
-    public ResponseEntity<Void> addLesson(@RequestParam String lessonsId,
-                                          @RequestParam String lessonId) {
-        lessonsService.addLessons(lessonsId, lessonId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
 

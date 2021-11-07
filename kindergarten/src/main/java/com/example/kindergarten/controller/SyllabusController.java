@@ -1,7 +1,7 @@
 package com.example.kindergarten.controller;
 
-import com.example.kindergarten.model.Lessons;
-import com.example.kindergarten.service.LessonsService;
+import com.example.kindergarten.model.Syllabus;
+import com.example.kindergarten.service.SyllabusService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +10,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/syllabus")
 public class SyllabusController {
 
-    private LessonsService lessonsService;
+    private SyllabusService syllabusService;
 
-    public SyllabusController(LessonsService lessonsService) {
-        this.lessonsService = lessonsService;
+    public SyllabusController(SyllabusService syllabusService) {
+        this.syllabusService = syllabusService;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveLessons(@RequestBody Lessons lessons) {
-        lessonsService.saveLessons(lessons);
+    public ResponseEntity<Void> saveLessons(@RequestBody Syllabus syllabus) {
+        syllabusService.saveSyllabus(syllabus);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Void> addLesson(@RequestParam String syllabusId,
+                                          @RequestParam String lessonId) {
+        syllabusService.addSyllabus(syllabusId, lessonId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
