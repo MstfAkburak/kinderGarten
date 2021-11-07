@@ -67,4 +67,9 @@ public class MedicineServiceImpl implements MedicineService {
         medicine.setDescription(description);
          medicineRepository.save(medicine);
     }
+
+    @Override
+    public List<Medicine> getStudentMedicine(String studentId) {
+        return  medicineRepository.findAllByStudentId(studentId);
+    }
 }
