@@ -12,4 +12,6 @@ public interface MedicineService {
     
     void updateMedicine(String id, Boolean isUsed, String description);
 
+    List<Medicine> getStudentMedicine(String studentId);
+
 }

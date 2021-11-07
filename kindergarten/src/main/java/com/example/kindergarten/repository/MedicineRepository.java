@@ -11,4 +11,6 @@ public interface MedicineRepository extends MongoRepository<Medicine, String> {
 
     Medicine findByMedicineName(String medicineName);
 
+    List<Medicine> findAllByStudentId(String studentId);
+
 }
