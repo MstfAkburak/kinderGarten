@@ -6,7 +6,7 @@ import com.example.kindergarten.model.Lesson;
 import java.util.List;
 
 public interface LessonService {
-    void saveLesson(Lesson lesson);
+    boolean saveLesson(Lesson lesson);
 
     List<Lesson> getLessonList();
 

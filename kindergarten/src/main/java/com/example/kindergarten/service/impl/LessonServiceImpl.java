@@ -6,6 +6,7 @@ import com.example.kindergarten.service.LessonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -17,8 +18,8 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void saveLesson(Lesson lesson) {
-        lessonRepository.save(lesson);
+    public boolean saveLesson(Lesson lesson) {
+        return Objects.nonNull(lessonRepository.save(lesson));
     }
 
     @Override
