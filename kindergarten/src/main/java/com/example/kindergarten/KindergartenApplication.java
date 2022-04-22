@@ -38,7 +38,7 @@ public class KindergartenApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (Objects.isNull(this.userRepository.findByUserName("user"))) {
             User user = new User("user", "user", "admin", "admin", "123456789",
-                    "admin@kindergarten", passwordEncoder.encode("1"), "USER");
+                    "admin@kindergarten", passwordEncoder.encode("123456"), "USER");
             this.userRepository.save(user);
         }
     }
