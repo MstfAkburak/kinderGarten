@@ -20,10 +20,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/lesson/list").hasAuthority("ADMIN")
-                .and()
-                .authorizeRequests().antMatchers("/oauth/token").permitAll()
                 .anyRequest().authenticated();
-
+        http.csrf().disable().authorizeRequests().antMatchers("/oauth/**").permitAll();
     }
 
     @Override
