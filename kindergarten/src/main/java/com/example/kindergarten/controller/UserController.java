@@ -2,20 +2,20 @@ package com.example.kindergarten.controller;
 
 import com.example.kindergarten.entity.request.FindUserRequest;
 import com.example.kindergarten.model.User;
+import com.example.kindergarten.service.UserDetailsServiceImpl;
 import com.example.kindergarten.service.UserService;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     private UserService userService;
+    private UserDetailsServiceImpl userDetailsService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserDetailsServiceImpl userDetailsService) {
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping("/save")
@@ -29,4 +29,10 @@ public class UserController {
     public User findUser(@RequestBody FindUserRequest request){
         return  userService.findUser(request);
     }
+
+    @GetMapping("/currentUser")
+    public String token(){
+        return userDetailsService.getCurrentUser();
+    }
+
 }
