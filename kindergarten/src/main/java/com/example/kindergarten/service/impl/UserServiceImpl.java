@@ -3,6 +3,7 @@ package com.example.kindergarten.service.impl;
 import com.example.kindergarten.entity.request.FindUserRequest;
 import com.example.kindergarten.model.User;
 import com.example.kindergarten.repository.UserRepository;
+import com.example.kindergarten.service.UserDetailsServiceImpl;
 import com.example.kindergarten.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,13 @@ public class UserServiceImpl implements UserService {
     public static final String EMAIL = "email";
 
     private UserRepository userRepository;
+    private UserDetailsServiceImpl userDetailsService;
+
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDetailsServiceImpl userDetailsService) {
         this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -60,6 +64,12 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
         }
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String username = userDetailsService.getCurrentUser();
+        return  userRepository.findByUserName(username);
     }
 
     private String decideUserSearch(FindUserRequest findUserRequest) {

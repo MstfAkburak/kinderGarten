@@ -1,5 +1,6 @@
 package com.example.kindergarten.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,6 +25,7 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     private String email;
     @NotBlank(message = "Password is mandatory")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String role;
 

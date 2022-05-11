@@ -14,4 +14,6 @@ public interface UserService {
     User findByEmail(String email);
 
     User findUser(FindUserRequest findUserRequest);
+
+    User getCurrentUser();
 }

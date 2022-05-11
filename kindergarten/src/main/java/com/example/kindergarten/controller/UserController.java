@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/currentUser")
-    public String token(){
-        return userDetailsService.getCurrentUser();
+    public User token(){
+        return  userService.getCurrentUser();
     }
 
 }
