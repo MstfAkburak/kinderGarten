@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DuesService {
 
-    void saveDues(Dues dues);
+    void saveDues(Dues dues, String schoolNumber);
 
     List<Dues> getDues(String studentId);
 

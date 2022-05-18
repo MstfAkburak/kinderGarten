@@ -2,6 +2,7 @@ package com.example.kindergarten.service.impl;
 
 import com.example.kindergarten.exception.model.NotFoundException;
 import com.example.kindergarten.model.Dues;
+import com.example.kindergarten.model.Student;
 import com.example.kindergarten.repository.DuesRepository;
 import com.example.kindergarten.repository.StudentRepository;
 import com.example.kindergarten.service.DuesService;
@@ -22,9 +23,11 @@ public class DuesServiceImpl implements DuesService {
     }
 
     @Override
-    public void saveDues(Dues dues) {
+    public void saveDues(Dues dues, String schoolNumber) {
         try {
-            if (Objects.nonNull(studentRepository.findById(dues.getStudentId()).get())) {
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            if (Objects.nonNull(student)) {
+                dues.setStudentId(student.getId());
                 duesRepository.save(dues);
             }
         } catch (Exception exception) {
@@ -33,8 +36,16 @@ public class DuesServiceImpl implements DuesService {
     }
 
     @Override
-    public List<Dues> getDues(String studentId) {
-        return duesRepository.findAllByStudentIdOrderByDate(studentId);
+    public List<Dues> getDues(String schoolNumber) {
+        try {
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            if(Objects.nonNull(student)) {
+                return duesRepository.findAllByStudentIdOrderByDate(student.getId());
+            }
+        } catch (NotFoundException ex) {
+            throw new NotFoundException(" idli öğrenci bulunadı.");
+        }
+        return null;
     }
 
     @Override

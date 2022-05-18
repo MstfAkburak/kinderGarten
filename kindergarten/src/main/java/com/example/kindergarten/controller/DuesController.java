@@ -19,13 +19,13 @@ public class DuesController {
     }
 
     @GetMapping("/list")
-    public List<Dues> getDues(@RequestParam String studentId) {
-        return duesService.getDues(studentId);
+    public List<Dues> getDues(@RequestParam String schoolNumber) {
+        return duesService.getDues(schoolNumber);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveDues(@RequestBody Dues dues) {
-        duesService.saveDues(dues);
+    public ResponseEntity<Void> saveDues(@RequestBody Dues dues, @RequestParam String schoolNumber) {
+        duesService.saveDues(dues, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
