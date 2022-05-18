@@ -19,14 +19,14 @@ public class MealController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveMeal(@RequestBody Meal meal) {
-        mealService.saveMeal(meal);
+    public ResponseEntity<Void> saveMeal(@RequestBody Meal meal, @RequestParam String schoolNumber) {
+        mealService.saveMeal(meal, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/list")
-    public List<Meal> getMeals(@RequestParam String studentId) {
-        return mealService.getMeals(studentId);
+    public List<Meal> getMeals(@RequestParam String schoolNumber) {
+        return mealService.getMeals(schoolNumber);
     }
 
     @PutMapping("/update")

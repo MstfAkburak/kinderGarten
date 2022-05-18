@@ -9,6 +9,7 @@ import com.example.kindergarten.service.MealService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -26,21 +27,30 @@ public class MealServiceImpl implements MealService {
 
 
     @Override
-    public void saveMeal(Meal meal) {
-        if (StringUtils.isEmpty(meal.getDate())) {
-            meal.setDate(String.valueOf(new Date()));
+    public void saveMeal(Meal meal, String schoolNumber) {
+        try {
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            meal.setStudentId(student.getId());
+            if (StringUtils.isEmpty(meal.getDate())) {
+                meal.setDate(String.valueOf(new Date()));
+            }
+            mealRepository.save(meal);
+        } catch (Exception ex) {
+            throw new NotFoundException("Meal Save error : " + ex.getLocalizedMessage());
         }
-        mealRepository.save(meal);
     }
 
     @Override
-    public List<Meal> getMeals(String studentId) {
-        Student student = studentRepository.findById(studentId).get();
-
-        if (Objects.isNull(student)) {
-            throw new NotFoundException(studentId + " idli öğrenci bulunamadı");
+    public List<Meal> getMeals(String schoolNumber) {
+        try {
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(student.getSchoolNumber() + " numaralı  öğrenci bulunamadı");
+            }
+            return mealRepository.findAllByStudentId(student.getId());
+        } catch (Exception ex) {
+            throw new NotFoundException("getMeals error : " + ex.getLocalizedMessage());
         }
-        return mealRepository.findAll();
     }
 
     @Override
