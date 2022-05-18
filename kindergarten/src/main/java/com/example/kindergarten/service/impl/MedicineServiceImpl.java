@@ -52,8 +52,8 @@ public class MedicineServiceImpl implements MedicineService {
 
 
     @Override
-    public void updateMedicine(String id, Boolean isUsed, String description) {
-        Medicine medicine = medicineRepository.findById(id).get();
+    public void updateMedicine(String medicineName, Boolean isUsed, String description) {
+        Medicine medicine = medicineRepository.findByMedicineName(medicineName);
 
         if (Objects.isNull(medicine)) {
             throw new NotFoundException("No activity found to update with this day = " + medicine.getMedicineName());
@@ -69,7 +69,11 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public List<Medicine> getStudentMedicine(String studentId) {
-        return  medicineRepository.findAllByStudentId(studentId);
+    public List<Medicine> getStudentMedicine(String schoolNumber) {
+        Student student = studentRepository.findBySchoolNumber(schoolNumber);
+        if(Objects.isNull(student)) {
+            throw new NotFoundException("No found student with number " + schoolNumber);
+        }
+        return  medicineRepository.findAllByStudentId(student.getId());
     }
 }
