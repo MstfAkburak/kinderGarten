@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface BodyTemperatureMeasurementService {
 
-    void saveBodyTemperatureMeasurement(BodyTemperatureMeasurement bodyTemperatureMeasurement);
+    void saveBodyTemperatureMeasurement(BodyTemperatureMeasurement bodyTemperatureMeasurement, String schoolNumber);
 
     void deleteBodyTemperatureMeasurement(String id);
 
     void updateBodyTemperatureMeasurement(String id, String studentId, Double bodyTemperature);
 
-    List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(String studentId);
+    List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(String schoolNumber);
 }

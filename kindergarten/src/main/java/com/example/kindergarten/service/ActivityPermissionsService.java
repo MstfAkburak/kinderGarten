@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ActivityPermissionsService {
 
-    void saveActivityPermission(ActivityPermissions activityPermissions);
+    void saveActivityPermission(ActivityPermissions activityPermissions, String schoolNumber);
 
     void deleteActivityPermission(String id);
 
-    void updateActivityPermissions(String id, String studentId, Boolean isPermission, String date);
+    void updateActivityPermissions(String id, String schoolNumber, Boolean isPermission, String date);
 
-    List<ActivityPermissions> getActivityPermissions(String studentId);
+    List<ActivityPermissions> getActivityPermissions(String schoolNumber);
 }

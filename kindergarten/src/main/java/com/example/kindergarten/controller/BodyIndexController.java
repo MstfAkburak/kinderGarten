@@ -19,8 +19,8 @@ public class BodyIndexController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveBodyIndex(@RequestBody BodyIndex bodyIndex) {
-        bodyIndexService.saveBodyIndex(bodyIndex);
+    public ResponseEntity<Void> saveBodyIndex(@RequestBody BodyIndex bodyIndex, @RequestParam String schoolNumber) {
+        bodyIndexService.saveBodyIndex(bodyIndex, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -38,7 +38,7 @@ public class BodyIndexController {
     }
 
     @GetMapping("/list")
-    public List<BodyIndex> getStudentBodyIndex(@RequestParam String studentId) {
-        return bodyIndexService.getStudentBodyIndex(studentId);
+    public List<BodyIndex> getStudentBodyIndex(@RequestParam String schoolNumber) {
+        return bodyIndexService.getStudentBodyIndex(schoolNumber);
     }
 }

@@ -25,15 +25,21 @@ public class BodyIndexServiceImpl implements BodyIndexService {
     }
 
     @Override
-    public void saveBodyIndex(BodyIndex bodyIndex) {
-        Student student = studentRepository.findById(bodyIndex.getStudentId()).get();
+    public void saveBodyIndex(BodyIndex bodyIndex, String schoolNumber) {
 
-        if (Objects.isNull(student)) {
-            throw new NotFoundException(bodyIndex.getStudentId() + " idli öğrenci bulunamadı...");
+        try {
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(student.getSchoolNumber() + " numaralı öğrenci bulunamadı...");
+            }
+
+            bodyIndex.setStudentId(student.getId());
+            bodyIndex.setDate(String.valueOf(new Date()));
+            bodyIndexRepository.save(bodyIndex);
+        } catch (Exception ex) {
+            throw new NotFoundException("Save BodyIndex error");
         }
-
-        bodyIndex.setDate(String.valueOf(new Date()));
-        bodyIndexRepository.save(bodyIndex);
     }
 
     @Override
@@ -65,15 +71,15 @@ public class BodyIndexServiceImpl implements BodyIndexService {
     }
 
     @Override
-    public List<BodyIndex> getStudentBodyIndex(String studentId) {
+    public List<BodyIndex> getStudentBodyIndex(String schoolNumber) {
         try {
-            Student student = studentRepository.findById(studentId).get();
-            if (Objects.nonNull(student)) {
-                return bodyIndexRepository.findAllByStudentId(studentId);
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(schoolNumber + " numaralı öğrenci bulunamadı.");
             }
+            return bodyIndexRepository.findAllByStudentId(student.getId());
         } catch (Exception e) {
-            throw new NotFoundException(studentId + "'ye sahip öğrenci bulunamadı");
+            throw new NotFoundException("getStudent Body Index error");
         }
-        return new ArrayList<>();
     }
 }

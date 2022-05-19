@@ -27,19 +27,21 @@ public class BodyTemperatureMeasurementServiceImpl implements BodyTemperatureMea
 
 
     @Override
-    public void saveBodyTemperatureMeasurement(BodyTemperatureMeasurement bodyTemperatureMeasurement) {
-        String studentId = bodyTemperatureMeasurement.getStudentId();
+    public void saveBodyTemperatureMeasurement(BodyTemperatureMeasurement bodyTemperatureMeasurement, String schoolNumber) {
+
         try {
-            if (!StringUtils.isEmpty(studentId)) {
-                Student student = studentRepository.findById(studentId).get();
-                if (Objects.nonNull(student)) {
-                    bodyTemperatureMeasurement.setIsEmergency((bodyTemperatureMeasurement.getBodyTemperature() > 38.0) ? true : false);
-                    bodyTemperatureMeasurement.setDate(String.valueOf(new Date()));
-                    bodyTemperatureMeasurementRepository.save(bodyTemperatureMeasurement);
-                }
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(schoolNumber + " numaraya ait öğrenci bulunamadı");
             }
-        } catch (Exception e) {
-            throw new NotFoundException(bodyTemperatureMeasurement.getId() + "'ye sahip bodyTemperatureMeasurement bulunamadı");
+            bodyTemperatureMeasurement.setStudentId(student.getId());
+            bodyTemperatureMeasurement.setIsEmergency((bodyTemperatureMeasurement.getBodyTemperature() > 38.0) ? true : false);
+            bodyTemperatureMeasurement.setDate(String.valueOf(new Date()));
+            bodyTemperatureMeasurementRepository.save(bodyTemperatureMeasurement);
+
+        } catch (Exception ex) {
+            throw new NotFoundException("saveBodyTemperatureMeasurement error : " + ex.getLocalizedMessage());
         }
     }
 
@@ -74,15 +76,17 @@ public class BodyTemperatureMeasurementServiceImpl implements BodyTemperatureMea
     }
 
     @Override
-    public List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(String studentId) {
+    public List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(String schoolNumber) {
         try {
-            Student student = studentRepository.findById(studentId).get();
-            if (Objects.nonNull(student)) {
-                return bodyTemperatureMeasurementRepository.findAllByStudentId(studentId);
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(schoolNumber + " numaraya ait öğrenci bulunamadı");
             }
-        } catch (Exception e) {
-            throw new NotFoundException(studentId + "'ye sahip öğrenci bulunamadı");
+
+            return bodyTemperatureMeasurementRepository.findAllByStudentId(student.getId());
+        } catch (Exception ex) {
+            throw new NotFoundException("getBodyTemperatureMeasurement error : " + ex.getLocalizedMessage());
         }
-        return new ArrayList<>();
     }
 }

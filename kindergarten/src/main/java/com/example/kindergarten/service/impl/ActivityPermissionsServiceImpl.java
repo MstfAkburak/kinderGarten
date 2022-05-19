@@ -25,20 +25,19 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
         this.studentRepository = studentRepository;
     }
 
-    public void saveActivityPermission(ActivityPermissions activityPermissions) {
-        String studentId = activityPermissions.getStudentId();
-        String date = null;
+    public void saveActivityPermission(ActivityPermissions activityPermissions, String schoolNumber) {
+
         try {
-            if (!StringUtils.isEmpty(studentId)) {
-                Student student = studentRepository.findById(studentId).get();
-                if (Objects.nonNull(student)) {
-                    date = activityPermissions.getDate();
-                    activityPermissions.setDate(!StringUtils.isEmpty(date) ? date : String.valueOf(new Date()));
-                    activityPermissionsRepository.save(activityPermissions);
-                }
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(schoolNumber + " numaralı bir öğrenci bulunamadı");
             }
-        } catch (Exception e) {
-            throw new NotFoundException(activityPermissions.getId() + "'ye sahip bodyIndex bulunamadı");
+            String date = activityPermissions.getDate();
+            activityPermissions.setStudentId(student.getId());
+            activityPermissions.setDate(!StringUtils.isEmpty(date) ? date : String.valueOf(new Date()));
+            activityPermissionsRepository.save(activityPermissions);
+        } catch (Exception ex) {
+            throw new NotFoundException("saveActivityPermission error : " + ex.getLocalizedMessage());
         }
     }
 
@@ -55,30 +54,34 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
         }
     }
 
-    public void updateActivityPermissions(String id, String studentId, Boolean isPermission, String date) {
+    public void updateActivityPermissions(String id, String schoolNumber, Boolean isPermission, String date) {
         try {
             ActivityPermissions activityPermissions = activityPermissionsRepository.findById(id).get();
-            Student student = studentRepository.findById(studentId).get();
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+
             if (Objects.nonNull(activityPermissions) && Objects.nonNull(student)) {
                 activityPermissions.setDate(!StringUtils.isEmpty(date) ? date : String.valueOf(new Date()));
                 activityPermissions.setIsPermission(isPermission);
                 activityPermissionsRepository.save(activityPermissions);
             }
+
         } catch (Exception e) {
             throw new NotFoundException(id + "'ye sahip bodyIndex bulunamadı");
         }
     }
 
-    public List<ActivityPermissions> getActivityPermissions(String studentId) {
+    public List<ActivityPermissions> getActivityPermissions(String schoolNumber) {
         try {
-            Student student = studentRepository.findById(studentId).get();
-            if (Objects.nonNull(student)) {
-                return activityPermissionsRepository.findAllByStudentId(studentId);
+            Student student = studentRepository.findBySchoolNumber(schoolNumber);
+
+            if (Objects.isNull(student)) {
+                throw new NotFoundException(schoolNumber + " numaralı öğrenci bulunamadı");
             }
-        } catch (Exception e) {
-            throw new NotFoundException(studentId + "'ye sahip öğrenci bulunamadı");
+
+            return activityPermissionsRepository.findAllByStudentId(student.getId());
+        } catch (Exception ex) {
+            throw new NotFoundException("getActivityPermission error : " + ex.getLocalizedMessage());
         }
-        return new ArrayList<>();
     }
 
 

@@ -19,8 +19,8 @@ public class BodyTemperatureController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveBodyTemperatureMeasurement(@RequestBody BodyTemperatureMeasurement bodyTemperatureMeasurement) {
-        bodyTemperatureMeasurementService.saveBodyTemperatureMeasurement(bodyTemperatureMeasurement);
+    public ResponseEntity<Void> saveBodyTemperatureMeasurement(@RequestBody BodyTemperatureMeasurement bodyTemperatureMeasurement, @RequestParam String schoolNumber) {
+        bodyTemperatureMeasurementService.saveBodyTemperatureMeasurement(bodyTemperatureMeasurement, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -39,7 +39,7 @@ public class BodyTemperatureController {
     }
 
     @GetMapping("/list")
-    public List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(@RequestParam String studentId) {
-        return bodyTemperatureMeasurementService.getBodyTemperatureMeasurement(studentId);
+    public List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(@RequestParam String schoolNumber) {
+        return bodyTemperatureMeasurementService.getBodyTemperatureMeasurement(schoolNumber);
     }
 }
