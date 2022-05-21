@@ -58,8 +58,7 @@ public class BodyIndexServiceImpl implements BodyIndexService {
     public void updateBodyIndex(String id, BodyIndex bodyIndex) {
         try {
             BodyIndex studentBodyIndex = bodyIndexRepository.findById(id).get();
-            Student student = studentRepository.findById(bodyIndex.getStudentId()).get();
-            if (Objects.nonNull(studentBodyIndex) && Objects.nonNull(student)) {
+            if (Objects.nonNull(studentBodyIndex)) {
                 studentBodyIndex.setDate(String.valueOf(new Date()));
                 studentBodyIndex.setSize(bodyIndex.getSize());
                 studentBodyIndex.setWeight(bodyIndex.getWeight());
