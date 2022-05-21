@@ -49,18 +49,18 @@ public class DuesServiceImpl implements DuesService {
     }
 
     @Override
-    public void updateDues(String id, Double value, String date, String paymentDate) {
-        Dues dues = duesRepository.findById(id).get();
+    public void updateDues(String duesId) {
+        try{
+            Dues dues = duesRepository.findById(duesId).get();
 
-        if (Objects.isNull(dues)) {
-            throw new NotFoundException("No activity found to update with this day = " + dues.getId());
+            if (Objects.isNull(dues)) {
+                throw new NotFoundException("No activity found to update with this day = " + dues.getId());
+            }
+            dues.setIsPaid(Boolean.TRUE);
+            duesRepository.save(dues);
+        }catch (Exception ex) {
+            throw new NotFoundException( "Update Dues error : " + ex.getLocalizedMessage());
         }
-
-        dues.setValue(value);
-        dues.setDate(date);
-        dues.setPaymentDate(paymentDate);
-
-        duesRepository.save(dues);
     }
 
     @Override

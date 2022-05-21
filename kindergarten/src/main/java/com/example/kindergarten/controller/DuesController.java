@@ -36,9 +36,8 @@ public class DuesController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateDues(@RequestParam String duesId,
-                                           @RequestBody Dues dues) {
-        duesService.updateDues(duesId, dues.getValue(), dues.getDate(), dues.getPaymentDate());
+    public ResponseEntity<Void> updateDues(@RequestParam String duesId) {
+        duesService.updateDues(duesId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -10,7 +10,7 @@ public interface DuesService {
 
     List<Dues> getDues(String studentId);
 
-    void updateDues(String id, Double value, String date, String paymentDate );
+    void updateDues(String duesId);
 
     void deleteDues(String id);
 }
