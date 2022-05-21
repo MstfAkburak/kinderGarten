@@ -18,7 +18,7 @@ public class MealController {
         this.mealService = mealService;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/add")
     public ResponseEntity<Void> saveMeal(@RequestBody Meal meal, @RequestParam String schoolNumber) {
         mealService.saveMeal(meal, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -29,10 +29,12 @@ public class MealController {
         return mealService.getMeals(schoolNumber);
     }
 
+
+    //meaal ID ve yenildi bilgisi olucak
     @PutMapping("/update")
-    public ResponseEntity<Void> updateMeal(@RequestParam String id,
-                                           @RequestBody Meal meal) {
-        mealService.updateMeal(id, meal);
+    public ResponseEntity<Void> updateMeal(@RequestParam String mealId,
+                                           @RequestParam Boolean isAttend) {
+        mealService.updateMeal(mealId, isAttend);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

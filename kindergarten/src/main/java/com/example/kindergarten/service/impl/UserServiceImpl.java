@@ -1,7 +1,9 @@
 package com.example.kindergarten.service.impl;
 
 import com.example.kindergarten.entity.request.FindUserRequest;
+import com.example.kindergarten.model.Student;
 import com.example.kindergarten.model.User;
+import com.example.kindergarten.repository.StudentRepository;
 import com.example.kindergarten.repository.UserRepository;
 import com.example.kindergarten.service.UserDetailsServiceImpl;
 import com.example.kindergarten.service.UserService;
@@ -18,12 +20,14 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private UserDetailsServiceImpl userDetailsService;
+    private StudentRepository studentRepository;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDetailsServiceImpl userDetailsService) {
+    public UserServiceImpl(UserRepository userRepository, UserDetailsServiceImpl userDetailsService, StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -69,7 +73,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
         String username = userDetailsService.getCurrentUser();
-        return  userRepository.findByUserName(username);
+        User user = userRepository.findByUserName(username);
+        Student student = studentRepository.findByUserId(user.getId());
+        user.setSchoolNumber(student.getSchoolNumber());
+        return user;
     }
 
     private String decideUserSearch(FindUserRequest findUserRequest) {

@@ -25,47 +25,43 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public void saveMedicine(Medicine medicine, String firstName, String lastName) {
-        Student student = studentRepository.findByFirstNameAndLastName(firstName, lastName);
+    public void saveMedicine(Medicine medicine, String schoolNumber) {
+        Student student = studentRepository.findBySchoolNumber(schoolNumber);
         if (Objects.nonNull(student)) {
             medicine.setStudentId(student.getId());
             medicine.setDate(new Date());
             medicine.setHour(String.valueOf(calendar.getTime()));
-            medicine.setFirstName(firstName);
-            medicine.setLastName(lastName);
+            medicine.setFirstName(student.getFirstName());
+            medicine.setLastName(student.getLastName());
             medicineRepository.save(medicine);
         } else {
-            throw new NotFoundException(firstName + " " + lastName + " isimli öğrenci bulunamadı.");
+            throw new NotFoundException(student.getFirstName() + " " + student.getLastName() + " isimli öğrenci bulunamadı.");
         }
     }
 
     @Override
-    public void deleteMedicine(String medicineName, String firstName, String lastName) {
-        Student student = studentRepository.findByFirstNameAndLastName(firstName, lastName);
-        Medicine medicine = medicineRepository.findByMedicineName(medicineName);
-        if (Objects.nonNull(student) && Objects.nonNull(medicine)) {
+    public void deleteMedicine(String medicineId) {
+        Medicine medicine = medicineRepository.findById(medicineId).get();
+        if (Objects.nonNull(medicine)) {
             medicineRepository.delete(medicine);
         } else {
-            throw new NotFoundException(firstName + " " + lastName + " isimli öğrenci bulunamadı.");
+            throw new NotFoundException( medicineId + " isimli öğrenci bulunamadı.");
         }
     }
 
 
     @Override
-    public void updateMedicine(String medicineName, Boolean isUsed, String description) {
-        Medicine medicine = medicineRepository.findByMedicineName(medicineName);
+    public void updateMedicine(String medicineId, Boolean isUsed) {
+        Medicine changedMedicine = medicineRepository.findById(medicineId).get();
 
-        if (Objects.isNull(medicine)) {
-            throw new NotFoundException("No activity found to update with this day = " + medicine.getMedicineName());
+        if (Objects.isNull(changedMedicine)) {
+            throw new NotFoundException("No activity found to update with this day = " + changedMedicine.getMedicineName());
         }
 
-        medicine.setFirstName(medicine.getFirstName());
-        medicine.setLastName(medicine.getLastName());
-        medicine.setDate(new Date());
-        medicine.setHour(String.valueOf(calendar.getTime()));
-        medicine.setIsUsed(isUsed);
-        medicine.setDescription(description);
-         medicineRepository.save(medicine);
+        changedMedicine.setDate(new Date());
+        changedMedicine.setHour(String.valueOf(calendar.getTime()));
+        changedMedicine.setIsUsed(isUsed);
+        medicineRepository.save(changedMedicine);
     }
 
     @Override

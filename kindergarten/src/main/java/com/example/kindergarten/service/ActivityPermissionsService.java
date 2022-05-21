@@ -10,7 +10,7 @@ public interface ActivityPermissionsService {
 
     void deleteActivityPermission(String id);
 
-    void updateActivityPermissions(String id, String schoolNumber, Boolean isPermission, String date);
+    void updateActivityPermissions(String id, Boolean isPermission);
 
     List<ActivityPermissions> getActivityPermissions(String schoolNumber);
 }

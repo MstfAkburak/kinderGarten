@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Medicine {
 
-    public String id;
+    public String medicineId;
     private String studentId;
     private String firstName;
     private String lastName;

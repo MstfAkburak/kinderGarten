@@ -32,10 +32,8 @@ public class ActivityPermissionsController {
 
     @PutMapping("/update")
     public ResponseEntity<Void> updateActivityPermissions(@RequestParam String id,
-                                                          @RequestParam String schoolNumber,
-                                                          @RequestParam Boolean isPermission,
-                                                          @RequestParam String date) {
-        activityPermissionsService.updateActivityPermissions(id, schoolNumber, isPermission, date);
+                                                          @RequestParam Boolean isPermission) {
+        activityPermissionsService.updateActivityPermissions(id, isPermission);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

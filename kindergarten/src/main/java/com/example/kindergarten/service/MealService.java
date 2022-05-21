@@ -10,6 +10,6 @@ public interface MealService {
 
     List<Meal> getMeals(String schoolNumber);
 
-    void updateMeal(String id, Meal meal);
+    void updateMeal(String mealId, Boolean isAttend);
 
 }

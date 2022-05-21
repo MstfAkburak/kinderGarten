@@ -32,9 +32,8 @@ public class BodyTemperatureController {
 
     @PutMapping("/update")
     public ResponseEntity<Void> updateBodyTemperatureMeasurement(@RequestParam String id,
-                                                                 @RequestParam String studentId,
                                                                  @RequestParam Double bodyTemperature) {
-        bodyTemperatureMeasurementService.updateBodyTemperatureMeasurement(id, studentId, bodyTemperature);
+        bodyTemperatureMeasurementService.updateBodyTemperatureMeasurement(id, bodyTemperature);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -60,11 +60,10 @@ public class BodyTemperatureMeasurementServiceImpl implements BodyTemperatureMea
     }
 
     @Override
-    public void updateBodyTemperatureMeasurement(String id, String studentId, Double bodyTemperature) {
+    public void updateBodyTemperatureMeasurement(String id, Double bodyTemperature) {
         try {
             BodyTemperatureMeasurement bodyTemperatureMeasurement = bodyTemperatureMeasurementRepository.findById(id).get();
-            Student student = studentRepository.findById(studentId).get();
-            if (Objects.nonNull(bodyTemperatureMeasurement) && Objects.nonNull(student)) {
+            if (Objects.nonNull(bodyTemperatureMeasurement)) {
                 bodyTemperatureMeasurement.setDate(String.valueOf(new Date()));
                 bodyTemperatureMeasurement.setBodyTemperature(bodyTemperature);
                 bodyTemperatureMeasurement.setIsEmergency((bodyTemperature > 38.0) ? true : false);

@@ -10,7 +10,7 @@ public interface BodyTemperatureMeasurementService {
 
     void deleteBodyTemperatureMeasurement(String id);
 
-    void updateBodyTemperatureMeasurement(String id, String studentId, Double bodyTemperature);
+    void updateBodyTemperatureMeasurement(String id, Double bodyTemperature);
 
     List<BodyTemperatureMeasurement> getBodyTemperatureMeasurement(String schoolNumber);
 }

@@ -54,13 +54,12 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
         }
     }
 
-    public void updateActivityPermissions(String id, String schoolNumber, Boolean isPermission, String date) {
+    public void updateActivityPermissions(String id, Boolean isPermission) {
         try {
             ActivityPermissions activityPermissions = activityPermissionsRepository.findById(id).get();
-            Student student = studentRepository.findBySchoolNumber(schoolNumber);
 
-            if (Objects.nonNull(activityPermissions) && Objects.nonNull(student)) {
-                activityPermissions.setDate(!StringUtils.isEmpty(date) ? date : String.valueOf(new Date()));
+            if (Objects.nonNull(activityPermissions)) {
+                activityPermissions.setDate(String.valueOf(new Date()));
                 activityPermissions.setIsPermission(isPermission);
                 activityPermissionsRepository.save(activityPermissions);
             }

@@ -9,10 +9,11 @@ import com.example.kindergarten.service.MealService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MealServiceImpl implements MealService {
@@ -47,25 +48,36 @@ public class MealServiceImpl implements MealService {
             if (Objects.isNull(student)) {
                 throw new NotFoundException(student.getSchoolNumber() + " numaralı  öğrenci bulunamadı");
             }
-            return mealRepository.findAllByStudentId(student.getId());
+            String pattern = "dd-MM-yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+            String date = simpleDateFormat.format(new Date());
+            System.out.println(date);
+            return
+            mealRepository.findAllByStudentId(student.getId()).
+                    stream().
+                    filter(meal -> meal.getDate().equals(date)).collect(Collectors.toList());
         } catch (Exception ex) {
             throw new NotFoundException("getMeals error : " + ex.getLocalizedMessage());
         }
     }
 
     @Override
-    public void updateMeal(String id, Meal meal) {
-        Meal searchMeal = mealRepository.findById(id).get();
-        Student student = studentRepository.findById(meal.getStudentId()).get();
+    public void updateMeal(String mealId, Boolean isAttend) {
 
-        if (Objects.isNull(searchMeal) || Objects.isNull(student)) {
-            throw new NotFoundException("bulunamadı");
+        try {
+            Meal searchMeal = mealRepository.findById(mealId).get();
+
+            if (Objects.isNull(searchMeal)) {
+                throw new NotFoundException("bulunamadı");
+            }
+
+            searchMeal.setDate(String.valueOf(new Date()));
+            searchMeal.setIsAttend(isAttend);
+            mealRepository.save(searchMeal);
+        } catch (Exception ex) {
+            throw new NotFoundException("updateMeal error : " + ex.getLocalizedMessage());
         }
-        searchMeal.setDate(String.valueOf(new Date()));
-        searchMeal.setDescription(meal.getDescription());
-        searchMeal.setIsAttend(meal.getIsAttend());
-
-        mealRepository.save(searchMeal);
     }
 
 }

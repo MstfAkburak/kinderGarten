@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface MedicineService {
 
-    void saveMedicine(Medicine medicine, String firstName, String lastName);
+    void saveMedicine(Medicine medicine, String schoolNumber);
 
-    void deleteMedicine(String medicineName, String firstName, String lastName);
+    void deleteMedicine(String medicineId);
     
-    void updateMedicine(String id, Boolean isUsed, String description);
+    void updateMedicine(String medicineId, Boolean isUsed);
 
     List<Medicine> getStudentMedicine(String studentId);
 

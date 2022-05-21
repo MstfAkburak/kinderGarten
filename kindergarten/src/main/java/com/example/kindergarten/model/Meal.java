@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class Meal {
 
-    private String id;
+    private String mealId;
     private String studentId;
     private Boolean isAttend;
-    private String description;
+    private String mealName;
     private String date;
     private MealStatus mealStatus;
 

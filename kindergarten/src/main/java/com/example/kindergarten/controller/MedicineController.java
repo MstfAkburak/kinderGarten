@@ -20,30 +20,27 @@ public class MedicineController {
     }
 
     @GetMapping("/list")
-    public List<Medicine> getMedicineList(@RequestParam String studentId) {
-        return medicineService.getStudentMedicine(studentId);
+    public List<Medicine> getMedicineList(@RequestParam String schoolNumber) {
+        return medicineService.getStudentMedicine(schoolNumber);
     }
 
     @PostMapping("/save")
     public ResponseEntity<Void> saveMedicine(@RequestBody Medicine medicine,
-                                             @RequestParam String firstName,
-                                             @RequestParam String lastName) {
-        medicineService.saveMedicine(medicine, firstName, lastName);
+                                             @RequestParam String schoolNumber) {
+        medicineService.saveMedicine(medicine, schoolNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Void> deleteMedicine(@RequestParam String medicineName,
-                                               @RequestParam String firstName,
-                                               @RequestParam String lastName) {
-        medicineService.deleteMedicine(medicineName, firstName, lastName);
+    public ResponseEntity<Void> deleteMedicine(@RequestParam String medicineId) {
+        medicineService.deleteMedicine(medicineId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateMedicine(@RequestParam String id,
-                                               @RequestBody Medicine medicine) {
-        medicineService.updateMedicine(id, medicine.getIsUsed(), medicine.getDescription());
+    public ResponseEntity<Void> updateMedicine(@RequestParam String medicineId,
+                                               @RequestParam Boolean isUsed) {
+        medicineService.updateMedicine(medicineId, isUsed);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

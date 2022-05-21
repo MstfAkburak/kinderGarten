@@ -16,4 +16,5 @@ public class Dues {
     private String date;
     private Double value;
     private String paymentDate;
+    private Boolean isPaid;
 }
