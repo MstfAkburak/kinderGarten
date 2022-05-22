@@ -9,10 +9,12 @@ import com.example.kindergarten.service.ActivityPermissionsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityPermissionsServiceImpl implements ActivityPermissionsService {
@@ -32,9 +34,12 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
             if (Objects.isNull(student)) {
                 throw new NotFoundException(schoolNumber + " numaralı bir öğrenci bulunamadı");
             }
-            String date = activityPermissions.getDate();
+            String pattern = "dd-MM-yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+            String date = simpleDateFormat.format(new Date());
             activityPermissions.setStudentId(student.getId());
-            activityPermissions.setDate(!StringUtils.isEmpty(date) ? date : String.valueOf(new Date()));
+            activityPermissions.setDate(date);
             activityPermissionsRepository.save(activityPermissions);
         } catch (Exception ex) {
             throw new NotFoundException("saveActivityPermission error : " + ex.getLocalizedMessage());
