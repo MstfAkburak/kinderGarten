@@ -22,6 +22,10 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
     private ActivityPermissionsRepository activityPermissionsRepository;
     private StudentRepository studentRepository;
 
+    final static String pattern = "dd-MM-yyyy";
+    final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+
     public ActivityPermissionsServiceImpl(ActivityPermissionsRepository activityPermissionsRepository, StudentRepository studentRepository) {
         this.activityPermissionsRepository = activityPermissionsRepository;
         this.studentRepository = studentRepository;
@@ -34,12 +38,9 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
             if (Objects.isNull(student)) {
                 throw new NotFoundException(schoolNumber + " numaralı bir öğrenci bulunamadı");
             }
-            String pattern = "dd-MM-yyyy";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-            String date = simpleDateFormat.format(new Date());
             activityPermissions.setStudentId(student.getId());
-            activityPermissions.setDate(date);
+            activityPermissions.setDate(simpleDateFormat.format(new Date()));
             activityPermissionsRepository.save(activityPermissions);
         } catch (Exception ex) {
             throw new NotFoundException("saveActivityPermission error : " + ex.getLocalizedMessage());
@@ -64,7 +65,7 @@ public class ActivityPermissionsServiceImpl implements ActivityPermissionsServic
             ActivityPermissions activityPermissions = activityPermissionsRepository.findById(id).get();
 
             if (Objects.nonNull(activityPermissions)) {
-                activityPermissions.setDate(String.valueOf(new Date()));
+                activityPermissions.setDate(simpleDateFormat.format(new Date()));
                 activityPermissions.setIsPermission(isPermission);
                 activityPermissionsRepository.save(activityPermissions);
             }
